@@ -7,6 +7,8 @@ ADD CONSTRAINT chk_headshots_kills CHECK (headshots <= kills);
 SET SQL_SAFE_UPDATES = 0;
 
 UPDATE players SET player_name = 'woxic'
-WHERE id_player = 23
+WHERE id_player = 23;
 
 
+SELECT * 
+FROM stats;

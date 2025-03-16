@@ -117,11 +117,11 @@ INSERT IGNORE INTO maps_played (id_match, id_map, id_player, id_team, kills, dea
 (2, 2, 24, 5, 15, 19, 4, 10, 78.9),
 (2, 2, 25, 5, 14, 14, 3, 8, 83.4);
 
-INSERT IGNORE INTO maps_results (id_match, id_team1, id_team2, rounds_team1, rounds_team2, id_winner) VALUES
-(1, 3, 2, 13, 9, 3),
-(1, 3, 2, 22, 20, 3),
-(2, 3, 5, 14, 16, 5),
-(2, 3, 5, 13, 6, 3),
-(2, 3, 5, 13, 3, 3),
-(2, 3, 5, 13, 8, 3); 
+INSERT IGNORE INTO maps_results (id_match, id_map, id_team1, id_team2, rounds_team1, rounds_team2, id_winner) VALUES
+(1, 1, 3, 2, 13, 9, 3),
+(1, 6, 3, 2, 22, 20, 3),
+(2, 5, 3, 5, 14, 16, 5),
+(2, 4, 3, 5, 13, 6, 3),
+(2, 1, 3, 5, 13, 3, 3),
+(2, 2, 3, 5, 13, 8, 3); 
 

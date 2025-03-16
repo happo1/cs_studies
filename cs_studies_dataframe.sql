@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `cs_studies`.`tournaments` (
   `tournament_name` VARCHAR(50) NOT NULL,
   `tournament_category` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id_tournament`))
-  AUTO_INCREMENT = 1
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 1;
 
 
 -- -----------------------------------------------------
@@ -151,6 +151,7 @@ CREATE TABLE IF NOT EXISTS `cs_studies`.`maps_results` (
   `rounds_team1` INT NOT NULL,
   `rounds_team2` INT NOT NULL,
   `id_winner` INT NOT NULL,
+  `id_map` INT NOT NULL,
   PRIMARY KEY (`id_maps_results`),
   INDEX `fk.maps_results_matches_idx` (`id_match` ASC) VISIBLE,
   INDEX `fk.maps_results_team1_idx` (`id_team1` ASC) VISIBLE,
@@ -178,6 +179,42 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8mb3;
 
+USE `cs_studies` ;
+
+-- -----------------------------------------------------
+-- Placeholder table for view `cs_studies`.`player_stats`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs_studies`.`player_stats` (`team_name` INT, `player_name` INT, `kills` INT, `deaths` INT, `assists` INT, `headshots` INT, `kdr` INT, `hsr` INT);
+
+-- -----------------------------------------------------
+-- Placeholder table for view `cs_studies`.`teams_players`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs_studies`.`teams_players` (`team_name` INT, `player_name` INT);
+
+-- -----------------------------------------------------
+-- View `cs_studies`.`player_stats`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cs_studies`.`player_stats`;
+USE `cs_studies`;
+CREATE  OR REPLACE VIEW `player_stats` AS
+SELECT t.team_name, p.player_name, SUM(mp.kills) AS kills, SUM(mp.deaths) AS deaths, SUM(mp.assists) AS assists, SUM(mp.headshots) AS headshots,
+	   (SUM(mp.kills) / SUM(mp.deaths)) AS kdr,
+       CONCAT(FORMAT((SUM(mp.headshots) / SUM(mp.kills)) * 100, 2), '%') AS hsr
+FROM maps_played mp
+JOIN players p ON mp.id_player = p.id_player
+JOIN teams t ON mp.id_team = t.id_team
+GROUP BY t.team_name, p.player_name
+ORDER BY kdr DESC;
+
+-- -----------------------------------------------------
+-- View `cs_studies`.`teams_players`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cs_studies`.`teams_players`;
+USE `cs_studies`;
+CREATE  OR REPLACE VIEW `teams_players` AS
+SELECT t.team_name, p.player_name
+FROM teams t
+JOIN players p ON t.id_team = p.id_team;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -20,3 +20,9 @@ FROM maps_results;
 
 SELECT * 
 FROM tournaments;
+
+SELECT * 
+FROM player_stats;
+
+SELECT *
+FROM teams_players
