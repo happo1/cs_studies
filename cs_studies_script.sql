@@ -19,7 +19,7 @@ JOIN tournaments t ON m.id_tournament = t.id_tournament
 ORDER BY m.match_date;
 
 SELECT 
-    m.id_match,
+    m.match_date,
     t.tournament_name AS Tournament,
     t1.team_name AS team1,
     t2.team_name AS team2,
@@ -33,7 +33,7 @@ JOIN teams t2 ON m.id_team2 = t2.id_team
 JOIN teams t3 ON mr.id_winner = t3.id_team
 JOIN tournaments t ON m.id_tournament = t.id_tournament
 GROUP BY m.id_match, t.tournament_name, t1.team_name, t2.team_name, t3.team_name
-ORDER BY m.id_match;
+ORDER BY m.match_date;
 
 
 

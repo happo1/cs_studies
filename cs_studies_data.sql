@@ -3,7 +3,7 @@
 USE cs_studies;
 
 INSERT IGNORE INTO tournaments (tournament_name, tournament_category) VALUES
-('BLAST Bounty 2025 Season 1', 'Blast Bounty'),
+('BLAST Bounty 2025 Season 1 Season Finals', 'Blast Bounty'),
 ('IEM Katowice','IEM');
 
 INSERT IGNORE INTO teams (team_name) VALUES
@@ -11,7 +11,10 @@ INSERT IGNORE INTO teams (team_name) VALUES
 ('Natus Vincere (NaVi)'),
 ('Team Spirit'),
 ('Vitality'),
-('Eternal Fire');
+('Eternal Fire'),
+('paiN'),
+('BetBoom'),
+('HEROIC');
 
 INSERT IGNORE INTO players (id_team, player_name) VALUES
 (1, 'Snax'),
@@ -26,7 +29,7 @@ INSERT IGNORE INTO players (id_team, player_name) VALUES
 (2, 'w0nderful'),
 (3, 'donk'),
 (3, 'magixx'),
-(3, 'shi1ro'),
+(3, 'sh1ro'),
 (3, 'chopper'),
 (3, 'zont1x'),
 (4, 'apEX'),
@@ -38,7 +41,22 @@ INSERT IGNORE INTO players (id_team, player_name) VALUES
 (5, 'XANTARES'),
 (5, 'woxic'),
 (5, 'wicadia'),
-(5, 'jottAAA');
+(5, 'jottAAA'),
+(6, 'biguzera'),
+(6, 'dav1deuS'),
+(6, 'nqz'),
+(6, 'snow'),
+(6, 'kauez'),
+(7, 'Boombl4'),
+(7, 'zorte'),
+(7, 'Ax1Le'),
+(7, 'S1ren'),
+(7, 'Magnojez'),
+(8, 'SunPayus'),
+(8, 'xfl0ud'),
+(8, 'LNZ'),
+(8, 'tN1R'),
+(8, 'yxngstxr');
 
 INSERT IGNORE INTO maps (map_name) VALUES
 ('Dust 2'), 
