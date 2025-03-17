@@ -46,8 +46,7 @@ CREATE TABLE IF NOT EXISTS `cs_studies`.`tournaments` (
   `tournament_name` VARCHAR(50) NOT NULL,
   `tournament_category` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id_tournament`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 1;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -192,6 +191,21 @@ CREATE TABLE IF NOT EXISTS `cs_studies`.`player_stats` (`team_name` INT, `player
 CREATE TABLE IF NOT EXISTS `cs_studies`.`teams_players` (`team_name` INT, `player_name` INT);
 
 -- -----------------------------------------------------
+-- Placeholder table for view `cs_studies`.`matches_overlook`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs_studies`.`matches_overlook` (`id_match` INT, `match_date` INT, `tournament_name` INT, `id_team1` INT, `team1_name` INT, `id_team2` INT, `team2_name` INT, `team1_maps_won` INT, `team2_maps_won` INT);
+
+-- -----------------------------------------------------
+-- Placeholder table for view `cs_studies`.`best_players`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs_studies`.`best_players` (`id` INT);
+
+-- -----------------------------------------------------
+-- Placeholder table for view `cs_studies`.`best_teams`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs_studies`.`best_teams` (`id` INT);
+
+-- -----------------------------------------------------
 -- View `cs_studies`.`player_stats`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `cs_studies`.`player_stats`;
@@ -215,6 +229,85 @@ CREATE  OR REPLACE VIEW `teams_players` AS
 SELECT t.team_name, p.player_name
 FROM teams t
 JOIN players p ON t.id_team = p.id_team;
+
+-- -----------------------------------------------------
+-- View `cs_studies`.`matches_overlook`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cs_studies`.`matches_overlook`;
+USE `cs_studies`;
+CREATE  OR REPLACE VIEW `matches_overlook` AS
+SELECT
+		m.id_match,
+		m.match_date,
+        t.tournament_name,
+        tt1.id_team AS id_team1,
+        tt1.team_name AS team1_name,
+        tt2.id_team AS id_team2,
+        tt2.team_name AS team2_name,
+        m.team1_maps_won,
+        m.team2_maps_won
+    FROM matches m
+	JOIN tournaments t ON m.id_tournament = t.id_tournament
+    JOIN teams tt1 ON m.id_team1 = tt1.id_team
+    JOIN teams tt2 ON m.id_team2 = tt2.id_team;
+
+-- -----------------------------------------------------
+-- View `cs_studies`.`best_players`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cs_studies`.`best_players`;
+USE `cs_studies`;
+CREATE  OR REPLACE VIEW `best_players` AS
+WITH best_players AS (
+    SELECT 
+        p.player_name,
+        t.team_name,
+        SUM(mp.kills) AS kills,
+        SUM(mp.deaths) AS deaths,
+        SUM(mp.assists) AS assists,
+        SUM(mp.headshots) AS headshots,
+        AVG(mp.adr) AS avg_adr,
+        (SUM(mp.kills) * 1.0 / NULLIF(SUM(mp.deaths), 0)) AS kdr,
+        CONCAT(FORMAT((SUM(mp.headshots) / SUM(mp.kills)) * 100, 2), '%') AS hsr
+    FROM maps_played mp
+    RIGHT JOIN players p ON mp.id_player = p.id_player
+    RIGHT JOIN teams t ON mp.id_team = t.id_team
+    GROUP BY p.player_name, t.team_name
+)
+SELECT ROW_NUMBER() OVER (ORDER BY kdr DESC) AS ranking, player_name, kills, deaths, assists, headshots, avg_adr, kdr, hsr 
+FROM best_players;
+
+-- -----------------------------------------------------
+-- View `cs_studies`.`best_teams`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cs_studies`.`best_teams`;
+USE `cs_studies`;
+CREATE  OR REPLACE VIEW `best_teams` AS
+WITH best_teams AS (
+	SELECT
+    t.team_name,
+    SUM(mp.kills) AS kills,
+    SUM(mp.deaths) AS deaths,
+    SUM(mp.assists) AS assists,
+    SUM(mp.headshots) AS headshots,
+    (SUM(mp.kills) / SUM(mp.deaths)) AS kdr,
+    CONCAT(FORMAT((SUM(mp.headshots) / SUM(mp.kills)) * 100, 1), '%') AS hsr,
+    	(SUM(CASE
+			WHEN t.id_team = mo.id_team1 THEN mo.team1_maps_won
+			WHEN t.id_team = mo.id_team2 THEN mo.team2_maps_won
+		END) /
+		NULLIF(SUM(CASE
+			WHEN t.id_team = mo.id_team1 THEN mo.team2_maps_won
+			WHEN t.id_team = mo.id_team2 THEN mo.team1_maps_won
+		END), 0)) AS map_wr_rating
+    FROM teams t
+    LEFT JOIN maps_played mp ON t.id_team = mp.id_team
+    JOIN matches_overlook mo ON t.id_team = mo.id_team1 OR t.id_team = mo.id_team2
+    GROUP BY t.team_name
+)
+SELECT 
+	ROW_NUMBER() OVER (ORDER BY map_wr_rating DESC) AS ranking,
+	team_name, kills, deaths, assists, headshots, kdr, map_wr_rating
+FROM best_teams;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

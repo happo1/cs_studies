@@ -55,7 +55,7 @@ INSERT IGNORE INTO players (id_team, player_name) VALUES
 (8, 'SunPayus'),
 (8, 'xfl0ud'),
 (8, 'LNZ'),
-(8, 'tN1R'),
+(8, 'Maden'),
 (8, 'yxngstxr');
 
 INSERT IGNORE INTO maps (map_name) VALUES
@@ -71,7 +71,8 @@ INSERT IGNORE INTO maps (map_name) VALUES
 
 INSERT IGNORE INTO matches (match_date, id_tournament, id_team1, id_team2, team1_maps_won, team2_maps_won) VALUES
 ('2025-01-25', 1, 3, 2, 2, 1),
-('2025-01-26', 1, 3, 5, 3, 1);
+('2025-01-26', 1, 3, 5, 3, 1),
+('2025-01-23', 1, 3, 8, 2, 0);
 
 INSERT IGNORE INTO maps_played (id_match, id_map, id_player, id_team, kills, deaths, assists, headshots, adr) VALUES
 (1, 1, 11, 3, 28, 13, 5, 20, 129.3),
@@ -133,7 +134,27 @@ INSERT IGNORE INTO maps_played (id_match, id_map, id_player, id_team, kills, dea
 (2, 2, 22, 5, 13, 17, 4, 12, 77.8),
 (2, 2, 23, 5, 17, 16, 3, 9, 71.4),
 (2, 2, 24, 5, 15, 19, 4, 10, 78.9),
-(2, 2, 25, 5, 14, 14, 3, 8, 83.4);
+(2, 2, 25, 5, 14, 14, 3, 8, 83.4),
+(3, 5, 11, 3, 25, 18, 7, 15, 111.5),
+(3, 5, 12, 3, 8, 16, 3, 4, 44.8),
+(3, 5, 13, 3, 20, 14, 5, 8, 85.2),
+(3, 5, 14, 3, 17, 10, 6, 8, 64.8),
+(3, 5, 15, 3, 15, 15, 3, 7, 71.2),
+(3, 5, 36, 8, 22, 13, 3, 8, 83.1),
+(3, 5, 37, 8, 11, 17, 7, 2, 74.0),
+(3, 5, 38, 8, 17, 18, 7, 4, 62.0),
+(3, 5, 39, 8, 11, 16, 9, 5, 72.1),
+(3, 5, 40, 8, 12, 21, 5, 7, 60.7),
+(3, 4, 11, 3, 9, 9, 1, 6, 63.8),
+(3, 4, 12, 3, 14, 10, 3, 11, 92.4),
+(3, 4, 13, 3, 19, 5, 0, 13, 106.2),
+(3, 4, 14, 3, 14, 10, 3, 8, 89.8),
+(3, 4, 15, 3, 11, 9, 5, 4, 78.2),
+(3, 4, 36, 8, 13, 12, 2, 3, 92.1),
+(3, 4, 37, 8, 9, 14, 3, 5, 63.7),
+(3, 4, 38, 8, 9, 14, 1, 4, 52.7),
+(3, 4, 39, 8, 7, 14, 2, 1, 43.1),
+(3, 4, 40, 8, 5, 14, 2, 3, 50.8);
 
 INSERT IGNORE INTO maps_results (id_match, id_map, id_team1, id_team2, rounds_team1, rounds_team2, id_winner) VALUES
 (1, 1, 3, 2, 13, 9, 3),
@@ -141,5 +162,17 @@ INSERT IGNORE INTO maps_results (id_match, id_map, id_team1, id_team2, rounds_te
 (2, 5, 3, 5, 14, 16, 5),
 (2, 4, 3, 5, 13, 6, 3),
 (2, 1, 3, 5, 13, 3, 3),
-(2, 2, 3, 5, 13, 8, 3); 
+(2, 2, 3, 5, 13, 8, 3),
+(3, 5, 3, 8, 13, 11, 3),
+(3, 4, 3, 8, 13, 3, 3);
+
+
+
+
+
+
+
+
+
+
 

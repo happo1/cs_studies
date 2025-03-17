@@ -1,6 +1,6 @@
-WITH relation AS (
+CREATE VIEW `best_players` AS
+WITH best_players AS (
     SELECT 
-        ROW_NUMBER() OVER (ORDER BY SUM(mp.kills) DESC) AS ranking,
         p.player_name,
         t.team_name,
         SUM(mp.kills) AS kills,
@@ -15,5 +15,5 @@ WITH relation AS (
     RIGHT JOIN teams t ON mp.id_team = t.id_team
     GROUP BY p.player_name, t.team_name
 )
-SELECT * FROM relation;
-
+SELECT ROW_NUMBER() OVER (ORDER BY kdr DESC) AS ranking, player_name, kills, deaths, assists, headshots, avg_adr, kdr, hsr 
+FROM best_players;

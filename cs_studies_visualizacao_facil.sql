@@ -25,4 +25,13 @@ SELECT *
 FROM player_stats;
 
 SELECT *
-FROM teams_players
+FROM teams_players;
+
+SELECT *
+FROM matches_overlook;
+
+SELECT *
+FROM best_players;
+
+SELECT * 
+FROM best_teams;

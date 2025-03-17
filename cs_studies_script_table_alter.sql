@@ -6,8 +6,8 @@ ADD CONSTRAINT chk_headshots_kills CHECK (headshots <= kills);
 
 SET SQL_SAFE_UPDATES = 0;
 
-UPDATE players SET player_name = 'woxic'
-WHERE id_player = 23;
+
+CREATE INDEX idx_maps_played_match_map ON maps_played (id_match, id_map);
 
 
 SELECT * 
