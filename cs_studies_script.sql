@@ -85,6 +85,21 @@ FROM maps m
 JOIN maps_played mp ON m.id_map = mp.id_map
 GROUP BY m.map_name;
 
+SELECT mm.match_date, t.tournament_name,
+	t1.team_name AS team1,
+	t2.team_name AS team2,
+	m.map_name,
+	mr.rounds_team1 AS rounds_t1,
+	mr.rounds_team2 AS rounds_t2,
+	t3.team_name AS winner
+FROM maps_results mr
+JOIN teams t1 ON mr.id_team1 = t1.id_team
+JOIN teams t2 ON mr.id_team2 = t2.id_team
+JOIN teams t3 ON mr.id_winner = t3.id_team
+JOIN matches mm  ON mr.id_match = mm.id_match
+JOIN tournaments t ON mm.id_tournament = t.id_tournament
+JOIN maps m ON mr.id_map = m.id_map
+
 
 
 
